@@ -14,6 +14,10 @@ not track the repository version. Each entry below records where the plugin stoo
 
 ### Added
 
+- A `type` on project cards in `local-mcp-server/`, matching the hosted MCP Connector:
+  `add_project_task` and `update_project_task` take an optional `type` (`feature`, `bug`,
+  `improvement`, `chore`, `docs` or `research`), and `search_project_tasks` returns it. On an update,
+  leaving it out keeps the card's current type and `null` clears it.
 - Formatted cheats from `add_cheat` and `update_cheat` in `local-mcp-server/`, matching the hosted
   MCP Connector. The `text` field now takes tags: `[note]...[/note]` for headings and short
   explanations, `[var]...[/var]` for placeholders the reader substitutes, and

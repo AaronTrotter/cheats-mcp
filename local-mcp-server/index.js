@@ -565,7 +565,7 @@ server.registerTool(
 	'search_project_tasks',
 	{
 		title: 'Search project cards',
-		description: 'List the cards on the user\'s board, across their own projects and any shared with them. Returns id, title, projectID, status, type, text, highlights, links and createdDateMs for each. status is which column the card sits in: \'open\', \'in-progress\' or \'in-review\'. type is what kind of work it is (\'feature\', \'bug\', \'improvement\', \'chore\', \'docs\' or \'research\'), or null when the card has none. There is no done status — a finished card is deleted and leaves the board. Returns the whole board at once rather than a page of it, so narrow it with projectId or query when you only want part.',
+		description: 'List the cards on the user\'s board, across their own projects and any shared with them. Returns id, title, author, projectID, status, type, text, highlights, links and createdDateMs for each. status is which column the card sits in: \'open\', \'in-progress\' or \'in-review\'. type is what kind of work it is (\'feature\', \'bug\', \'improvement\', \'chore\', \'docs\' or \'research\'), or null when the card has none. There is no done status — a finished card is deleted and leaves the board. Returns the whole board at once rather than a page of it, so narrow it with projectId or query when you only want part.',
 		inputSchema: {
 			query: z.string().optional().describe('Search text matched against title/text; omit for every card.'),
 			projectId: z.string().optional().describe('Restrict to one project\'s cards (id from search_projects). Omit for every project\'s.')
@@ -600,11 +600,12 @@ server.registerTool(
 			projectId: z.string().describe('Id of the project to add it to, from search_projects.'),
 			text: z.string().describe('The card body text.'),
 			status: z.enum(PROJECT_TASK_STATUSES).optional().describe('Which column it starts in (default \'open\').'),
-			type: z.enum(PROJECT_TASK_TYPES).optional().describe('What kind of work it is. Omit to leave the card untyped.')
+			type: z.enum(PROJECT_TASK_TYPES).optional().describe('What kind of work it is. Omit to leave the card untyped.'),
+			author: z.string().max(60).optional().describe('Who worked on or implemented the card, e.g. \'Claude\', \'Codex\' or a person\'s name (max 60 chars). A byline only, separate from who created it. Omit to leave it blank.')
 		}
 	},
-	async ({ title, projectId, text, status, type }) => {
-		return textResult(await callApi('POST', '/mcp/addProjectTask', { body: { title, projectID: projectId, text, status, type } }));
+	async ({ title, projectId, text, status, type, author }) => {
+		return textResult(await callApi('POST', '/mcp/addProjectTask', { body: { title, projectID: projectId, text, status, type, author } }));
 	}
 );
 
@@ -619,11 +620,12 @@ server.registerTool(
 			projectId: z.string().describe('Id of the project the card belongs to. Pass a different one to move the card to another board.'),
 			text: z.string().describe('New card body text.'),
 			status: z.enum(PROJECT_TASK_STATUSES).optional().describe('New column. Omit to leave the card where it is.'),
-			type: z.enum(PROJECT_TASK_TYPES).nullable().optional().describe('New type. Omit to keep the current one, or pass null to clear it.')
+			type: z.enum(PROJECT_TASK_TYPES).nullable().optional().describe('New type. Omit to keep the current one, or pass null to clear it.'),
+			author: z.string().max(60).nullable().optional().describe('Who worked on or implemented the card. Omit to keep the current author, or pass null to clear it (max 60 chars).')
 		}
 	},
-	async ({ id, title, projectId, text, status, type }) => {
-		return textResult(await callApi('POST', '/mcp/updateProjectTask', { body: { id, title, projectID: projectId, text, status, type } }));
+	async ({ id, title, projectId, text, status, type, author }) => {
+		return textResult(await callApi('POST', '/mcp/updateProjectTask', { body: { id, title, projectID: projectId, text, status, type, author } }));
 	}
 );
 

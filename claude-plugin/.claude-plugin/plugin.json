@@ -1,11 +1,13 @@
 {
   "name": "cheatsheet",
   "description": "Search, read, and manage cheats on your cheatsheet app from Claude, via its hosted MCP connector.",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": {
     "name": "Aaron Trotter",
     "email": "aaronjtrotter@gmail.com"
   },
-  "homepage": "https://cheats.aarontrotter.com/api-docs",
-  "repository": "https://github.com/AaronTrotter/cheatsheet-mcp"
+  "homepage": "https://cheats.aarontrotter.com/api-docs/connect-mcp",
+  "repository": "https://github.com/AaronTrotter/cheatsheet-mcp",
+  "license": "MIT",
+  "keywords": ["cheatsheet", "mcp", "notes", "tasks"]
 }

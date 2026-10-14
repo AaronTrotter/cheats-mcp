@@ -4,87 +4,37 @@ All notable changes to this repository are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the repository version follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Note that the Claude Code plugin under [`claude-plugin/`](claude-plugin/) carries its own version
-number, declared in both `claude-plugin/.claude-plugin/plugin.json` and
-`.claude-plugin/marketplace.json`, because that is what a `/plugin update` on someone else's
-machine compares against. It moves only when something inside that directory changes, so it does
-not track the repository version. Each entry below records where the plugin stood at that release.
+Note that the Claude Code and Cursor plugins under [`claude-plugin/`](claude-plugin/) and
+[`cursor-plugin/`](cursor-plugin/) each carry their own version number in their plugin and
+marketplace manifests, because that is what a plugin update on someone else's machine compares
+against. They move only when something inside that plugin directory changes, so they do not track
+the repository version. Each entry below records where the plugins stood at that release.
 
 ## [Unreleased]
 
-### Added
+### Removed
 
-- A `type` on project cards in `local-mcp-server/`, matching the hosted MCP Connector:
-  `add_project_task` and `update_project_task` take an optional `type` (`feature`, `bug`,
-  `improvement`, `chore`, `docs` or `research`), and `search_project_tasks` returns it. On an update,
-  leaving it out keeps the card's current type and `null` clears it.
-- Formatted cheats from `add_cheat` and `update_cheat` in `local-mcp-server/`, matching the hosted
-  MCP Connector. The `text` field now takes tags: `[note]...[/note]` for headings and short
-  explanations, `[var]...[/var]` for placeholders the reader substitutes, and
-  `[link=https://...]label[/link]` for a labelled link. Cheatsheet turns them into the same
-  coloured notes, variables and links its editor makes, and also colours a bare `https://` URL as a
-  link and a trailing `//comment` as a note with no tags at all. Until now everything an agent
-  wrote arrived as uncoloured plain text. `get_cheat` returns the body the same way, as `markup`,
-  in place of the raw offset-based `body`, so a cheat read and passed back to `update_cheat` keeps
-  its formatting instead of losing it on every edit.
-- Seven Hours tools in `local-mcp-server/`, matching the hosted MCP Connector, backed by new
-  `/mcp/*` endpoints: `search_hour_projects`, `add_hour_project`, `search_hour_entries`,
-  `get_hours_summary`, `add_hour_entry`, `update_hour_entry` and `delete_hour_entry`. Hours, the
-  time log on Cheatsheet, had no API or MCP surface until now. API keys can be scoped to the new
-  `hours` section, and an unrestricted key reaches it straight away. `add_hour_entry` takes the
-  day as `YYYY-MM-DD` and the duration as `hours` plus `minutes` in 15-minute steps.
-  `update_hour_entry` is a partial edit like `update_penny`, returning the entry under a new id.
-  Each entry keeps the rate it was logged at, so editing one never reprices it unless a rate is
-  passed or it moves project. Changing a project's rate, archiving and deleting a project stay
-  browser-only, since the first reprices later work and the last ceases every hour on it.
-- `update_penny` in `local-mcp-server/`, matching the hosted MCP Connector, backed by the new
-  `POST /mcp/updatePenny`. Pennies orders can now be edited on Cheatsheet, so a logged order is no
-  longer immutable. The tool is a partial edit: pass the order's `id` and only the fields that
-  change, and everything else keeps its logged value. The edit is append-only underneath, so the
-  order comes back under a new id, and an id that was already superseded answers `409`.
-- `add_penny` takes two new optional flags, matching the Pennies page's paired forms. `alsoStake`
-  on a crypto market buy also logs a stake of the same units, returning `{id, stakeId}`, for
-  platforms that buy a coin as you stake it. `alsoSell` on an unstake also logs a market sell of
-  everything the unstake released (`quantity` plus `rewardQuantity`) at `pricePerUnit`, returning
-  `{id, sellId}`. Both orders of a pair are written in one batch.
-- Four more Dues tools in `local-mcp-server/`, matching the hosted MCP Connector:
-  `search_due_payers`, `search_due_services`, `add_due_payer` and `add_due_service`. The first
-  five tools could read what was owed and record a one-off charge, but not set up the payer or the
-  recurring service a charge hangs off, so the section could not actually be used from a client
-  without opening the browser first. Note that `add_due_service` raises every charge owed since
-  its `firstDueDate` immediately when that date is in the past, reporting the count as `raised`.
-- Five Dues tools in `local-mcp-server/`, mirroring the five the hosted MCP Connector gained in
-  the same change: `search_dues`, `get_due`, `get_dues_summary`, `add_due` and `mark_due_paid`.
-  Dues is a new private section on Cheatsheet recording money other people owe the user, with a
-  payer, the recurring services they are billed for, and each amount owed. Freezing a payer,
-  sending a payment reminder and editing a due are deliberately absent from both surfaces: the
-  first two act on a real client, and the third reprices every future charge. Note that
-  `mark_due_paid` can raise the next charge as a side effect on a service set to recur only after
-  payment, returning it as `rolledChildID`.
+- Local MCP entry points: `live-proxy.js` (stdio → hosted HTTP proxy), `local-mcp-server/` (stdio
+  REST re-implementation), and the Claude plugin's bundled `server.js` / npm dependencies. Every
+  supported client can use the hosted Streamable HTTP connector with OAuth (or a bearer API key),
+  so a local Node process is no longer needed or maintained here.
 
 ### Changed
 
-- The README now opens with the new Cheatsheet logo. It shows the on-white lockup in GitHub's
-  light theme and the on-dark one in its dark theme, both kept under `assets/`.
-- `add_task` and `update_task` descriptions in `local-mcp-server/` now use the hosted MCP
-  Connector's wording word for word ("Task title", "The task body text", "An expired task"). No
-  schema changed.
-- The tool set is now forty-seven tools: thirty-nine, plus `update_penny`, plus the seven Hours
-  tools. `search_pennies`' description now lists
-  every field an order carries, including `orderKind`, `rewardQuantity` and `notes`.
-- `get_cheat` and `get_revisions` now return `ownStars` and `ownPoints` alongside `stars` and
-  `points`, and `get_revisions`' description says to rank by the former. Cheatsheet's `stars` and
-  `points` are cumulative down a cheat's revision lineage, because each revision inherits every
-  vote cast before it, so comparing two revisions by `points` mostly just rediscovers which one is
-  newer. The new fields are the votes cast on that revision alone, which is the comparison worth
-  making when deciding which version of a cheat to read. No tool was added, removed or reshaped.
-- Projects tool descriptions in `local-mcp-server/` now cover shared boards, matching the hosted
-  MCP Connector. A project on Cheatsheet can be shared with other people by email invite, so
-  `search_projects` returns boards shared with the user alongside their own, each carrying a
-  `role` of `owner`, `editor` or `viewer`, and the card tools act on any board the user can
-  write to rather than only ones they created. No tool was added, removed or reshaped: the
-  endpoints behind them changed behaviour, and these descriptions had said "a card you own",
-  which is no longer what they do.
+- Claude Code plugin **3.0.0** is HTTP-only: `.mcp.json` uses `"type": "http"` and
+  `https://cheats.aarontrotter.com/mcp`. No key file, no stdio proxy.
+- Root README is a multi-platform connector guide (Claude, Claude Code, Cursor, ChatGPT, VS Code
+  Copilot, Codex, Gemini CLI, Windsurf) instead of an Option A / Option B local-vs-hosted menu.
+- Repository version **2.0.0** — client packaging only; no runtime Node dependencies.
+
+### Added
+
+- A Cursor plugin under [`cursor-plugin/`](cursor-plugin/), plus a root
+  [`.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json), registering the same hosted
+  URL for Cursor marketplace / local plugin installs.
+- A Cursor-format `mcp.json` next to Claude Code's `.mcp.json` inside
+  [`claude-plugin/`](claude-plugin/), so either host format can load the HTTP connector from that
+  directory.
 
 ## [1.3.0] - 2026-09-07
 

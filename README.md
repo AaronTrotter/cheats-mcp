@@ -5,90 +5,137 @@
 
 # cheatsheet-mcp
 
-Client-side MCP tooling for [cheatsheet](https://cheats.aarontrotter.com), a personal cheat-sheet
-web app. Lets an MCP client (Claude Code, Claude Desktop, the Claude mobile app, or any other
-MCP-compatible agent) search, read, and manage your cheats, Tasks, Brain, Pennies, Projects, Hours
-and Dues, without an API key ever being typed into chat.
+Client packaging and install docs for the [cheatsheet](https://cheats.aarontrotter.com) hosted MCP
+connector. Point any MCP-compatible client at:
 
-The hosted server itself (`POST /mcp`) lives in the app's own repo, at
-[`functions/routes/db/mcpConnector.js`](https://github.com/AaronTrotter/cheatsheet). Everything in
-*this* repo is client-side: ways to reach that server, plus a standalone reference implementation.
-See the app's own [Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp)
-page for the same walkthrough from the web app's side.
+```text
+https://cheats.aarontrotter.com/mcp
+```
 
-## Choose how to connect
+That endpoint is Streamable HTTP with standard OAuth discovery
+(`/.well-known/oauth-authorization-server`, `/.well-known/oauth-protected-resource`). Leave auth
+headers blank and the client runs Cheatsheet's sign-in / consent flow; a scoped API key is minted
+for you and listed under `/user` → API Access. Untick any app sections on the consent screen to
+limit which tools the connector offers.
 
-There are two ways to connect an MCP client to Cheatsheet:
+The server itself lives in the app repo
+([`functions/routes/db/mcpConnector.js`](https://github.com/AaronTrotter/cheatsheet)). This repo only
+packages how clients reach it. The same walkthrough from the web app's side is on
+[Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp).
 
-- **Option A — Connect through Claude.** Add Cheatsheet as a connector inside claude.ai, Claude
-  Desktop, or the Claude mobile app. No local setup, works everywhere you're signed in, including
-  mobile. Nothing in this repo to install — see [below](#option-a-connect-through-claude).
-- **Option B — Run a local MCP server.** A small process on your own machine handles the
-  connection, wired up through a config file like Claude Code's `.mcp.json`. Needs a one-time
-  local setup and doesn't reach the mobile app, but keeps your key on your own disk instead of in
-  another company's settings UI. This is what most of this repo is for — see
-  [below](#option-b-run-a-local-mcp-server).
+There is no local MCP process to install. Older stdio proxies and the REST-backed local example
+were removed — every major client below can use the hosted URL directly.
 
-Not sure which one? Start with Option A, it's the fastest to set up and needs no local files.
+## Quick connect
 
-## Option A: Connect through Claude
+| Client | How |
+| --- | --- |
+| **Claude** (claude.ai / Desktop / mobile) | Settings → Connectors → Add custom connector → URL above |
+| **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` |
+| **Cursor** | [`cursor-plugin/`](cursor-plugin/README.md), or `url` entry in `~/.cursor/mcp.json` |
+| **ChatGPT** (web) | Settings → Apps & Connectors → enable Developer mode → Create connector → URL + OAuth |
+| **VS Code + Copilot** | MCP: Add Server → HTTP → URL above |
+| **Codex CLI** | Add an HTTP MCP server with the URL above (OAuth or bearer header) |
+| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` (or `npx mcp-remote` shim if your build still needs it) |
+| **Windsurf / other IDE agents** | Same shape as Cursor: a config entry with `"url": "https://cheats.aarontrotter.com/mcp"` |
 
-In claude.ai, Claude Desktop, or the Claude mobile app, go to
-**Settings → Connectors → Add custom connector** and enter:
+## Authentication
+
+**Sign in with Cheatsheet (recommended).** Supported on Cursor, Claude connectors, Claude Code,
+ChatGPT, Copilot, and other OAuth-aware MCP clients. No key to create beforehand.
+
+**Paste an API key.** For clients that only accept a bearer token, create one at `/user` → API
+Access and send `Authorization: Bearer <key>`. Use a separate, narrowly-scoped key per client so
+you can revoke one without touching the others.
+
+## Claude Code plugin
+
+```
+/plugin marketplace add AaronTrotter/cheatsheet-mcp
+/plugin install cheatsheet@cheatsheet-mcp
+```
+
+Details: [`claude-plugin/README.md`](claude-plugin/README.md). Claude Code needs
+`"type": "http"` on URL entries in `.mcp.json`.
+
+## Cursor plugin
+
+Import this repo as a Cursor marketplace, or copy [`cursor-plugin/`](cursor-plugin/) into
+`~/.cursor/plugins/local/cheatsheet` and reload. Details:
+[`cursor-plugin/README.md`](cursor-plugin/README.md).
+
+Manual `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "cheatsheet": {
+      "url": "https://cheats.aarontrotter.com/mcp"
+    }
+  }
+}
+```
+
+## Claude (claude.ai / Desktop / mobile)
+
+Settings → Connectors → Add custom connector:
 
 - URL: `https://cheats.aarontrotter.com/mcp`
-- Header (optional — see below): `Authorization: Bearer <your key>`
+- Header: leave blank for OAuth, or `Authorization: Bearer <your key>`
 
-Once added, claude.ai brokers it through your account, so it works from the mobile apps too, not
-just the browser (or Desktop app) it was configured in. Two ways to authenticate:
+claude.ai brokers the connector through your account, so it also works in the mobile apps.
 
-- **Sign in with Cheatsheet (recommended).** Leave the header blank. The hosted connector
-  publishes standard OAuth discovery metadata (`/.well-known/oauth-authorization-server`,
-  `/.well-known/oauth-protected-resource`) and a `WWW-Authenticate` challenge on `/mcp`'s `401`, so
-  an OAuth-aware client detects the flow automatically and shows a normal Cheatsheet sign-in and
-  consent screen instead of asking for a key — a scoped key is minted and handed over behind the
-  scenes, never visible to you or typed anywhere. The consent screen also lists the app's sections
-  (Cheats, Tasks, Brain, Pennies, Projects, Hours, Dues), all ticked; untick any the connector
-  shouldn't reach and it's offered only the remaining sections' tools. You can change the choice
-  later from `/user` → API Access without reconnecting. This is server-side behavior
-  (`functions/routes/db/oauth.js` in the [cheatsheet](https://github.com/AaronTrotter/cheatsheet)
-  repo) — nothing to install here.
-- **Paste an API key.** If your client doesn't support the sign-in flow, create a key at
-  `/user` → API Access and paste it into the header field above. Since this means the key lives in
-  a field in claude.ai's own settings rather than a local file or shell variable, create a
-  **separate, narrowly-scoped key** just for this connector (read-only, if you don't need write
-  access) so it can be revoked on its own without touching any other integration.
+## ChatGPT
 
-## Option B: Run a local MCP server
+1. Settings → Apps & Connectors → Advanced settings → enable **Developer mode**.
+2. Create a connector with MCP server URL `https://cheats.aarontrotter.com/mcp` and
+   authentication **OAuth**.
+3. Complete the Cheatsheet consent screen when prompted.
 
-For Claude Code, or any other client that reads a `.mcp.json`-style config, a small local process
-handles the connection so your API key stays in a file on your own disk instead of a client config
-or shell environment variable. Pick one:
+## VS Code with GitHub Copilot
 
-- **[`claude-plugin/`](claude-plugin/README.md)** (easiest) — the hosted connector packaged as an
-  installable Claude Code plugin: `/plugin marketplace add AaronTrotter/cheatsheet-mcp`. Bundles
-  its own copy of `live-proxy.js` below, reading the key from a file in Claude Code's persistent
-  plugin data directory. PC/Claude Code only.
-- **[`live-proxy.js`](live-proxy.js)** — the same proxy, for wiring up `.mcp.json` by hand instead
-  of through the plugin (e.g. for a client other than Claude Code). Setup steps are on the app's
-  own [Setting up the MCP proxy](https://cheats.aarontrotter.com/api-docs/mcp-proxy-setup) page.
-- **[`local-mcp-server/`](local-mcp-server/README.md)** — a standalone stdio server that wraps the
-  cheatsheet's REST API directly instead of forwarding to the hosted connector, kept as a
-  customizable reference for a project that wants to modify the tool set or run its own variant.
-  Covers the same 47 tools as the hosted connector — see its own README.
+Command Palette → **MCP: Add Server** → HTTP → paste `https://cheats.aarontrotter.com/mcp` →
+authenticate when prompted. Or add the same `url` block under MCP servers in your user/workspace
+MCP config.
 
-All three keep the key on your own machine and don't reach the mobile app, which has no local
-process to run one in.
+## Codex / Gemini / Windsurf
 
-## Setup
+Same hosted URL. Prefer native HTTP / Streamable HTTP transport with OAuth when the client offers
+it. If a client only supports stdio, a temporary shim such as
+`npx -y mcp-remote https://cheats.aarontrotter.com/mcp` can bridge to the hosted connector — that
+shim is an upstream tool, not something this repo ships.
 
-1. **Create an API key first**, whichever option you're using — sign in at the cheatsheet, go to
-   `/user` → API Access, and create one (read-only or read + write, depending on what you want a
-   client to be able to do). Create a separate key per method if you want to be able to revoke one
-   without affecting the others — see the key-scoping note under Option A for why that matters most
-   there.
-2. Then follow the specific option's own steps above (or its linked README).
+## Marketplaces
 
-Skip this step entirely if you're using Option A's sign-in flow — no key to create beforehand, a
-scoped one is minted for you automatically and shows up on `/user` afterward, revocable the same
-way as any other.
+This repo is packaged so the connector can be listed in AI marketplaces (same hosted URL
+everywhere). Submit from a paid Claude / Cursor account after pushing `main`:
+
+| Marketplace | Submit | What to enter |
+| --- | --- | --- |
+| **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → MCP connector | URL `https://cheats.aarontrotter.com/mcp` |
+| **Claude Plugin Directory** | same portal → Plugin bundle | Repo `AaronTrotter/cheatsheet-mcp`, path `claude-plugin` |
+| **Cursor Marketplace** | [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) | This repository |
+| **cursor.directory** | [cursor.directory/plugins/new](https://cursor.directory/plugins/new) | This repository (auto-detects root [`.mcp.json`](.mcp.json)) |
+
+Docs and privacy for listings: [Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp)
+and [Privacy Policy](https://cheats.aarontrotter.com/privacy-policy).
+
+## What this repo contains
+
+| Path | Role |
+| --- | --- |
+| [`claude-plugin/`](claude-plugin/) | Claude Code marketplace plugin (HTTP URL) |
+| [`cursor-plugin/`](cursor-plugin/) | Cursor marketplace plugin (HTTP URL) |
+| [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) | Claude Code marketplace manifest |
+| [`.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json) | Cursor marketplace manifest |
+| [`.mcp.json`](.mcp.json) | Root MCP config for cursor.directory auto-detect |
+| [`assets/`](assets/) | Logos |
+
+## Setup notes
+
+- OAuth: skip creating a key; one is minted on consent and appears under `/user` afterward.
+- API key path: create the key first, then paste it into the client's header / token field.
+- Redirect URIs for desktop OAuth clients are handled by each client (e.g. Cursor uses
+  `http://localhost:8787/callback` and `https://www.cursor.com/agents/mcp/oauth/callback`). The
+  cheatsheet authorization server supports dynamic client registration, so new OAuth-aware
+  clients can register themselves.

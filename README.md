@@ -107,15 +107,16 @@ shim is an upstream tool, not something this repo ships.
 
 ## Marketplaces
 
-This repo is packaged so the connector can be listed in AI marketplaces (same hosted URL
-everywhere). Submit from a paid Claude / Cursor account after pushing `main`:
+The product to list is the **hosted connector** (`https://cheats.aarontrotter.com/mcp`). Plugins
+in this repo are optional packaging for one-click install in Claude Code / Cursor — they point at
+that same URL. Paste-ready fields and step order: [`MARKETPLACE_SUBMIT.md`](MARKETPLACE_SUBMIT.md).
 
-| Marketplace | Submit | What to enter |
-| --- | --- | --- |
-| **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → MCP connector | URL `https://cheats.aarontrotter.com/mcp` |
-| **Claude Plugin Directory** | same portal → Plugin bundle | Repo `AaronTrotter/cheatsheet-mcp`, path `claude-plugin` |
-| **Cursor Marketplace** | [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) | This repository |
-| **cursor.directory** | [cursor.directory/plugins/new](https://cursor.directory/plugins/new) | This repository (auto-detects root [`.mcp.json`](.mcp.json)) |
+| Priority | Marketplace | Submit | What to enter |
+| --- | --- | --- | --- |
+| 1 (primary) | **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → **MCP connector** | URL `https://cheats.aarontrotter.com/mcp` |
+| 2 | **Cursor Marketplace** | [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) | This repository |
+| 2 | **cursor.directory** | [cursor.directory/plugins/new](https://cursor.directory/plugins/new) | This repository (auto-detects root [`.mcp.json`](.mcp.json)) |
+| 3 (optional) | **Claude Plugin Directory** | same Claude portal → Plugin bundle | Repo `AaronTrotter/cheatsheet-mcp`, path `claude-plugin` |
 
 Docs and privacy for listings: [Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp)
 and [Privacy Policy](https://cheats.aarontrotter.com/privacy-policy).

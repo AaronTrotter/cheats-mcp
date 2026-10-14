@@ -1,8 +1,10 @@
 # Marketplace submission checklist
 
-Packaging is on `main` (`67b15ca`). Hosted connector annotations ship with the cheatsheet app
-deploy from `bed36f3`. Wait until Firebase deploy finishes before Claude’s Tools step (it syncs
-from the live URL).
+**Best path for Cheatsheet:** list the **hosted connector** first (maximum visibility across
+Claude products). Optional IDE **plugins** package the same URL for one-click install.
+
+Packaging is on `main`. Hosted connector annotations are live on production after the cheatsheet
+app deploy that added `readOnlyHint` / `destructiveHint`.
 
 ## Shared listing copy
 
@@ -20,9 +22,15 @@ from the live URL).
 | Auth | OAuth 2.0 with dynamic client registration |
 | Categories | Productivity, Notes, Developer tools |
 
-## 1. Claude Connectors Directory
+## Priority order
 
-1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector**.
+1. **Claude Connectors Directory** — primary; everybody on Claude can find and connect.
+2. **Cursor Marketplace** + **cursor.directory** — Cursor users.
+3. **Claude Plugin Directory** — optional Claude Code one-click install of the same connector.
+
+## 1. Claude Connectors Directory (do this first)
+
+1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
 2. Connection: paste `https://cheats.aarontrotter.com/mcp` (or pick an existing custom connector).
 3. Tools: confirm every tool has a title and read-only / destructive annotations (no flags).
 4. Listing: use the shared copy above; upload the lockup icon.
@@ -30,27 +38,28 @@ from the live URL).
 6. Test & launch: add a reviewer test account (Pro, with sample data) and confirm you’ve exercised the tools as a custom connector.
 7. Compliance acknowledgements → submit.
 
-## 2. Claude Plugin Directory
-
-1. Same portal → **Submit new** → **Plugin bundle**.
-2. Repository: `AaronTrotter/cheatsheet-mcp` (or `https://github.com/AaronTrotter/cheatsheet-mcp`).
-3. Plugin path: `claude-plugin`
-4. Branch: `main` (default).
-5. **Validate** → fix any blocking findings → submit for review.
-6. Optional on your machine first: `claude plugin validate ./claude-plugin`
-
-## 3. Cursor Marketplace
+## 2. Cursor Marketplace
 
 1. Open https://cursor.com/marketplace/publish
 2. Submit repository: `https://github.com/AaronTrotter/cheatsheet-mcp`
 3. Manifest: `.cursor-plugin/marketplace.json` (plugin in `cursor-plugin/`)
 
-## 4. cursor.directory
+## 3. cursor.directory
 
 1. Open https://cursor.directory/plugins/new
 2. Sign in with GitHub.
 3. Paste `https://github.com/AaronTrotter/cheatsheet-mcp` → Scan repo (detects root `.mcp.json`).
 4. Publish Plugin.
+
+## 4. Claude Plugin Directory (optional)
+
+Only after the connector is submitted. Same portal → **Plugin bundle**.
+
+1. Repository: `AaronTrotter/cheatsheet-mcp`
+2. Plugin path: `claude-plugin`
+3. Branch: `main`
+4. **Validate** → fix blocking findings → submit.
+5. Optional locally: `claude plugin validate ./claude-plugin`
 
 ## After listings go live
 

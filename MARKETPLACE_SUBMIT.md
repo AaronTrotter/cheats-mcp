@@ -18,7 +18,7 @@ app deploy that added `readOnlyHint` / `destructiveHint`.
 | Privacy | https://cheats.aarontrotter.com/privacy-policy |
 | Support | cheats@aarontrotter.com |
 | Homepage | https://cheats.aarontrotter.com |
-| Icon | `assets/cheatsheet-lockup-onwhite.svg` in this repo (or `claude-plugin/assets/…` / `cursor-plugin/assets/…`) |
+| Icon | `assets/cheatsheet-icon-512.png` (square PNG, for the Claude directory's custom icon upload); `assets/cheatsheet-lockup-onwhite.svg` for plugin listings |
 | Auth | OAuth 2.0 with dynamic client registration |
 | Categories | Productivity, Notes, Developer tools |
 
@@ -33,7 +33,7 @@ app deploy that added `readOnlyHint` / `destructiveHint`.
 1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
 2. Connection: paste `https://cheats.aarontrotter.com/mcp` (or pick an existing custom connector).
 3. Tools: confirm every tool has a title and read-only / destructive annotations (no flags).
-4. Listing: use the shared copy above; upload the lockup icon.
+4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon (Claude may otherwise show a cached or parent-domain favicon).
 5. Auth: OAuth with dynamic client registration.
 6. Test & launch: add a reviewer test account (Pro, with sample data) and confirm you’ve exercised the tools as a custom connector.
 7. Compliance acknowledgements → submit.

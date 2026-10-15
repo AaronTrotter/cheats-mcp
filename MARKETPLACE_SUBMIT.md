@@ -14,8 +14,8 @@ OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on t
 | --- | --- |
 | Server URL | `https://cheats.aarontrotter.com/mcp` |
 | Name | Cheatsheet |
-| One-liner | Search and manage your Cheatsheet cheats, tasks, and notes from your AI client. |
-| Description | Cheatsheet’s hosted MCP connector gives Claude, Cursor, and other MCP clients live access to your account: cheats, Tasks, Brain, Projects, Pennies, Hours, and Dues. Sign in with OAuth (or paste a scoped API key). Untick sections on the consent screen to limit what the client can reach. |
+| One-liner | Search and edit your personal cheat sheets, tasks, notes and project boards from Claude. |
+| Description | Cheatsheet is your personal library of code snippets, commands and notes. This connector lets Claude search and read it, and, on a Pro plan, add, edit and delete entries. It also reaches your Tasks, Brain notes, Projects board, logged Hours, Pennies and Dues. Sign in with OAuth. On the consent screen you choose which sections Claude can reach, and you can limit it to read-only. Shared Projects are the only content visible to anyone else you invite. |
 | Docs | https://cheats.aarontrotter.com/api-docs/connect-mcp |
 | Privacy | https://cheats.aarontrotter.com/privacy-policy |
 | Support | cheats@aarontrotter.com |

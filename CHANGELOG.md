@@ -29,6 +29,9 @@ the repository version. Each entry below records where the plugins stood at that
 
 ### Added
 
+- Per-client config snippets and a compatibility table in the README, covering the keys that
+  differ between clients (VS Code `servers`, Gemini `httpUrl`, Windsurf `serverUrl`, Codex TOML).
+- [`.codex/config.toml`](.codex/config.toml) for Codex CLI.
 - A Cursor plugin under [`cursor-plugin/`](cursor-plugin/), plus a root
   [`.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json), registering the same hosted
   URL for Cursor marketplace / local plugin installs.

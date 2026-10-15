@@ -34,10 +34,11 @@ were removed — every major client below can use the hosted URL directly.
 | **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` |
 | **Cursor** | [`cursor-plugin/`](cursor-plugin/README.md), or `url` entry in `~/.cursor/mcp.json` |
 | **ChatGPT** (web) | Settings → Apps & Connectors → enable Developer mode → Create connector → URL + OAuth |
-| **VS Code + Copilot** | MCP: Add Server → HTTP → URL above |
-| **Codex CLI** | Add an HTTP MCP server with the URL above (OAuth or bearer header) |
-| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` (or `npx mcp-remote` shim if your build still needs it) |
-| **Windsurf / other IDE agents** | Same shape as Cursor: a config entry with `"url": "https://cheats.aarontrotter.com/mcp"` |
+| **VS Code + Copilot** | MCP: Add Server → HTTP → URL above (config key is `servers`, see [snippets](#per-client-config-snippets)) |
+| **Codex CLI** | [`.codex/config.toml`](.codex/config.toml) entry, then `codex mcp login cheatsheet` |
+| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` (the settings key is `httpUrl`, not `url`) |
+| **Windsurf** | `serverUrl` entry in `~/.codeium/windsurf/mcp_config.json` |
+| **Other MCP clients** | Any client speaking Streamable HTTP + OAuth 2.1 (PKCE, dynamic client registration) |
 
 ## Authentication
 
@@ -98,12 +99,76 @@ Command Palette → **MCP: Add Server** → HTTP → paste `https://cheats.aaron
 authenticate when prompted. Or add the same `url` block under MCP servers in your user/workspace
 MCP config.
 
-## Codex / Gemini / Windsurf
+## Per-client config snippets
 
-Same hosted URL. Prefer native HTTP / Streamable HTTP transport with OAuth when the client offers
-it. If a client only supports stdio, a temporary shim such as
-`npx -y mcp-remote https://cheats.aarontrotter.com/mcp` can bridge to the hosted connector — that
+Config keys differ between clients, and the wrong one silently falls back to a different transport.
+These are the exact shapes.
+
+**VS Code** (`.vscode/mcp.json` or user MCP config). The top-level key is `servers`, not
+`mcpServers`:
+
+```json
+{
+  "servers": {
+    "cheatsheet": { "type": "http", "url": "https://cheats.aarontrotter.com/mcp" }
+  }
+}
+```
+
+**Codex CLI** (`~/.codex/config.toml`, same as the checked-in [`.codex/config.toml`](.codex/config.toml)):
+
+```toml
+[mcp_servers.cheatsheet]
+url = "https://cheats.aarontrotter.com/mcp"
+```
+
+Then run `codex mcp login cheatsheet` to complete OAuth. For the API-key path add
+`bearer_token_env_var = "CHEATSHEET_API_KEY"` and export that variable.
+
+**Gemini CLI** (`~/.gemini/settings.json`). `httpUrl` selects Streamable HTTP; plain `url` means
+legacy SSE and will not work against this server:
+
+```json
+{
+  "mcpServers": {
+    "cheatsheet": { "httpUrl": "https://cheats.aarontrotter.com/mcp" }
+  }
+}
+```
+
+**Windsurf** (`~/.codeium/windsurf/mcp_config.json`). Remote servers use `serverUrl`:
+
+```json
+{
+  "mcpServers": {
+    "cheatsheet": { "serverUrl": "https://cheats.aarontrotter.com/mcp" }
+  }
+}
+```
+
+**Claude Desktop** does not read remote servers from `claude_desktop_config.json`; add the URL
+under Settings → Connectors instead (see above).
+
+**stdio-only clients.** If a client cannot speak HTTP at all, a shim such as
+`npx -y mcp-remote https://cheats.aarontrotter.com/mcp` can bridge to the hosted connector. That
 shim is an upstream tool, not something this repo ships.
+
+## Compatibility notes
+
+What a client needs from the server, and where it stands (verified against production):
+
+| Requirement | Status |
+| --- | --- |
+| Streamable HTTP at a single `/mcp` endpoint (no SSE-only transport) | Yes, stateless |
+| `401` with `WWW-Authenticate: Bearer resource_metadata=…` | Yes |
+| RFC 9728 protected-resource metadata at `/.well-known/oauth-protected-resource` | Yes |
+| RFC 8414 authorization-server metadata | Yes |
+| Dynamic client registration (RFC 7591) | Yes; `https` and `localhost` redirect URIs |
+| PKCE `S256` | Required |
+| Tool `title` plus `readOnlyHint` / `destructiveHint` annotations | Yes, on every tool |
+| Refresh tokens | No: the access token is a long-lived, revocable API key (`/user` → API Access) |
+| Custom-scheme redirect URIs (`cursor://`, `vscode://`) | Rejected; those clients use their `https` or `localhost` callbacks |
+| ChatGPT `search` / `fetch` tools (deep research, company knowledge) | Not provided; tools are `search_cheats`, `get_cheat`, … so use ChatGPT Developer mode |
 
 ## Marketplaces
 
@@ -130,6 +195,7 @@ and [Privacy Policy](https://cheats.aarontrotter.com/privacy-policy).
 | [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) | Claude Code marketplace manifest |
 | [`.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json) | Cursor marketplace manifest |
 | [`.mcp.json`](.mcp.json) | Root MCP config for cursor.directory auto-detect |
+| [`.codex/config.toml`](.codex/config.toml) | Codex CLI config for the hosted URL |
 | [`assets/`](assets/) | Logos |
 
 ## Setup notes

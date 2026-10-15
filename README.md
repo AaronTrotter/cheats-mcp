@@ -5,23 +5,23 @@
 
 # cheatsheet-mcp
 
-Client packaging and install docs for the [cheatsheet](https://cheats.aarontrotter.com) hosted MCP
+Client packaging and install docs for the [cheatsheet](https://cheats.cloud) hosted MCP
 connector. Point any MCP-compatible client at:
 
 ```text
-https://cheats.aarontrotter.com/mcp
+https://cheats.cloud/mcp
 ```
 
 That endpoint is Streamable HTTP with standard OAuth discovery
 (`/.well-known/oauth-authorization-server`, `/.well-known/oauth-protected-resource`). Leave auth
-headers blank and the client runs Cheatsheet's sign-in / consent flow; a scoped API key is minted
+headers blank and the client runs Cheats' sign-in / consent flow; a scoped API key is minted
 for you and listed under `/user` → API Access. Untick any app sections on the consent screen to
 limit which tools the connector offers.
 
 The server itself lives in the app repo
 ([`functions/routes/db/mcpConnector.js`](https://github.com/AaronTrotter/cheatsheet)). This repo only
 packages how clients reach it. The same walkthrough from the web app's side is on
-[Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp).
+[Connect an MCP Client](https://cheats.cloud/api-docs/connect-mcp).
 
 There is no local MCP process to install. Older stdio proxies and the REST-backed local example
 were removed — every major client below can use the hosted URL directly.
@@ -31,18 +31,18 @@ were removed — every major client below can use the hosted URL directly.
 | Client | How |
 | --- | --- |
 | **Claude** (claude.ai / Desktop / mobile) | Settings → Connectors → Add custom connector → URL above |
-| **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` |
+| **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheatsheet https://cheats.cloud/mcp` |
 | **Cursor** | [`cursor-plugin/`](cursor-plugin/README.md), or `url` entry in `~/.cursor/mcp.json` |
 | **ChatGPT** (web) | Settings → Apps & Connectors → enable Developer mode → Create connector → URL + OAuth |
 | **VS Code + Copilot** | MCP: Add Server → HTTP → URL above (config key is `servers`, see [snippets](#per-client-config-snippets)) |
 | **Codex CLI** | [`.codex/config.toml`](.codex/config.toml) entry, then `codex mcp login cheatsheet` |
-| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.aarontrotter.com/mcp` (the settings key is `httpUrl`, not `url`) |
+| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.cloud/mcp` (the settings key is `httpUrl`, not `url`) |
 | **Windsurf** | `serverUrl` entry in `~/.codeium/windsurf/mcp_config.json` |
 | **Other MCP clients** | Any client speaking Streamable HTTP + OAuth 2.1 (PKCE, dynamic client registration) |
 
 ## Authentication
 
-**Sign in with Cheatsheet (recommended).** Supported on Cursor, Claude connectors, Claude Code,
+**Sign in with Cheats (recommended).** Supported on Cursor, Claude connectors, Claude Code,
 ChatGPT, Copilot, and other OAuth-aware MCP clients. No key to create beforehand.
 
 **Paste an API key.** For clients that only accept a bearer token, create one at `/user` → API
@@ -71,7 +71,7 @@ Manual `~/.cursor/mcp.json`:
 {
   "mcpServers": {
     "cheatsheet": {
-      "url": "https://cheats.aarontrotter.com/mcp"
+      "url": "https://cheats.cloud/mcp"
     }
   }
 }
@@ -81,7 +81,7 @@ Manual `~/.cursor/mcp.json`:
 
 Settings → Connectors → Add custom connector:
 
-- URL: `https://cheats.aarontrotter.com/mcp`
+- URL: `https://cheats.cloud/mcp`
 - Header: leave blank for OAuth, or `Authorization: Bearer <your key>`
 
 claude.ai brokers the connector through your account, so it also works in the mobile apps.
@@ -89,13 +89,13 @@ claude.ai brokers the connector through your account, so it also works in the mo
 ## ChatGPT
 
 1. Settings → Apps & Connectors → Advanced settings → enable **Developer mode**.
-2. Create a connector with MCP server URL `https://cheats.aarontrotter.com/mcp` and
+2. Create a connector with MCP server URL `https://cheats.cloud/mcp` and
    authentication **OAuth**.
-3. Complete the Cheatsheet consent screen when prompted.
+3. Complete the Cheats consent screen when prompted.
 
 ## VS Code with GitHub Copilot
 
-Command Palette → **MCP: Add Server** → HTTP → paste `https://cheats.aarontrotter.com/mcp` →
+Command Palette → **MCP: Add Server** → HTTP → paste `https://cheats.cloud/mcp` →
 authenticate when prompted. Or add the same `url` block under MCP servers in your user/workspace
 MCP config.
 
@@ -110,7 +110,7 @@ These are the exact shapes.
 ```json
 {
   "servers": {
-    "cheatsheet": { "type": "http", "url": "https://cheats.aarontrotter.com/mcp" }
+    "cheatsheet": { "type": "http", "url": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -119,7 +119,7 @@ These are the exact shapes.
 
 ```toml
 [mcp_servers.cheatsheet]
-url = "https://cheats.aarontrotter.com/mcp"
+url = "https://cheats.cloud/mcp"
 ```
 
 Then run `codex mcp login cheatsheet` to complete OAuth. For the API-key path add
@@ -131,7 +131,7 @@ legacy SSE and will not work against this server:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": { "httpUrl": "https://cheats.aarontrotter.com/mcp" }
+    "cheatsheet": { "httpUrl": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -141,7 +141,7 @@ legacy SSE and will not work against this server:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": { "serverUrl": "https://cheats.aarontrotter.com/mcp" }
+    "cheatsheet": { "serverUrl": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -150,7 +150,7 @@ legacy SSE and will not work against this server:
 under Settings → Connectors instead (see above).
 
 **stdio-only clients.** If a client cannot speak HTTP at all, a shim such as
-`npx -y mcp-remote https://cheats.aarontrotter.com/mcp` can bridge to the hosted connector. That
+`npx -y mcp-remote https://cheats.cloud/mcp` can bridge to the hosted connector. That
 shim is an upstream tool, not something this repo ships.
 
 ## Compatibility notes
@@ -172,19 +172,19 @@ What a client needs from the server, and where it stands (verified against produ
 
 ## Marketplaces
 
-The product to list is the **hosted connector** (`https://cheats.aarontrotter.com/mcp`). Plugins
+The product to list is the **hosted connector** (`https://cheats.cloud/mcp`). Plugins
 in this repo are optional packaging for one-click install in Claude Code / Cursor — they point at
 that same URL. Paste-ready fields and step order: [`MARKETPLACE_SUBMIT.md`](MARKETPLACE_SUBMIT.md).
 
 | Priority | Marketplace | Submit | What to enter |
 | --- | --- | --- | --- |
-| 1 (primary) | **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → **MCP connector** | URL `https://cheats.aarontrotter.com/mcp` |
+| 1 (primary) | **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → **MCP connector** | URL `https://cheats.cloud/mcp` |
 | 2 | **Cursor Marketplace** | [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) | This repository |
 | 2 | **cursor.directory** | [cursor.directory/plugins/new](https://cursor.directory/plugins/new) | This repository (auto-detects root [`.mcp.json`](.mcp.json)) |
 | 3 (optional) | **Claude Plugin Directory** | same Claude portal → Plugin bundle | Repo `AaronTrotter/cheatsheet-mcp`, path `claude-plugin` |
 
-Docs and privacy for listings: [Connect an MCP Client](https://cheats.aarontrotter.com/api-docs/connect-mcp)
-and [Privacy Policy](https://cheats.aarontrotter.com/privacy-policy).
+Docs and privacy for listings: [Connect an MCP Client](https://cheats.cloud/api-docs/connect-mcp)
+and [Privacy Policy](https://cheats.cloud/privacy-policy).
 
 ## What this repo contains
 

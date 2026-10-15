@@ -13,7 +13,7 @@
       "source": "./cursor-plugin",
       "description": "Search, read, and manage cheats on your cheatsheet app from Cursor, via its hosted MCP connector.",
       "version": "1.0.0",
-      "homepage": "https://cheats.aarontrotter.com/api-docs/connect-mcp",
+      "homepage": "https://cheats.cloud/api-docs/connect-mcp",
       "license": "MIT",
       "logo": "cursor-plugin/assets/cheatsheet-lockup-onwhite.svg",
       "keywords": ["cheatsheet", "mcp", "notes", "tasks"]

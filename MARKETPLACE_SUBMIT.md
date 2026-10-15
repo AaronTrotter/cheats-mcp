@@ -1,6 +1,6 @@
 # Marketplace submission checklist
 
-**Best path for Cheatsheet:** list the **hosted connector** first (maximum visibility across
+**Best path for Cheats:** list the **hosted connector** first (maximum visibility across
 Claude products). Optional IDE **plugins** package the same URL for one-click install.
 
 Packaging is on `main`. The hosted connector is live on production with `title`, `readOnlyHint`
@@ -12,14 +12,14 @@ OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on t
 
 | Field | Value |
 | --- | --- |
-| Server URL | `https://cheats.aarontrotter.com/mcp` |
-| Name | Cheatsheet |
+| Server URL | `https://cheats.cloud/mcp` |
+| Name | Cheats |
 | One-liner | Search and edit your personal cheat sheets, tasks, notes and project boards from Claude. |
-| Description | Cheatsheet is your personal library of code snippets, commands and notes. This connector lets Claude search and read it, and, on a Pro plan, add, edit and delete entries. It also reaches your Tasks, Brain notes, Projects board, logged Hours, Pennies and Dues. Sign in with OAuth. On the consent screen you choose which sections Claude can reach, and you can limit it to read-only. Shared Projects are the only content visible to anyone else you invite. |
-| Docs | https://cheats.aarontrotter.com/api-docs/connect-mcp |
-| Privacy | https://cheats.aarontrotter.com/privacy-policy |
-| Support | cheats@aarontrotter.com |
-| Homepage | https://cheats.aarontrotter.com |
+| Description | Cheats is your personal library of code snippets, commands and notes. This connector lets Claude search and read it, and, on a Pro plan, add, edit and delete entries. It also reaches your Tasks, Brain notes, Projects board, logged Hours, Pennies and Dues. Sign in with OAuth. On the consent screen you choose which sections Claude can reach, and you can limit it to read-only. Shared Projects are the only content visible to anyone else you invite. |
+| Docs | https://cheats.cloud/api-docs/connect-mcp |
+| Privacy | https://cheats.cloud/privacy-policy |
+| Support | support@cheats.cloud |
+| Homepage | https://cheats.cloud |
 | Icon | `assets/cheatsheet-icon-512.png` (square PNG, for the Claude directory's custom icon upload); `assets/cheatsheet-lockup-onwhite.svg` for plugin listings |
 | Auth | OAuth 2.0 with dynamic client registration |
 | Categories | Productivity, Notes, Developer tools |
@@ -34,7 +34,7 @@ Shown to reviewers only, not on the public listing.
 | 2 | Capture a task or note | Add a task "Renew domain" to my cheatsheet with a list item for each registrar. |
 | 3 | Track work and time | Log 2 hours on the Acme website project today, and show how much I've earned this month. |
 
-- **Prerequisites:** A Cheatsheet account at cheats.aarontrotter.com. Reading works on the Free
+- **Prerequisites:** A Cheats account at cheats.cloud. Reading works on the Free
   plan; write tools (add, update, delete) need a Pro plan, because the OAuth consent screen only
   grants write access to Pro accounts. Sign-in is OAuth, so no API key or admin permission is
   needed. On the consent screen the user can untick app sections (Tasks, Brain, Projects, Pennies,
@@ -53,7 +53,7 @@ Shown to reviewers only, not on the public listing.
 ## 1. Claude Connectors Directory (do this first)
 
 1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
-2. Connection: paste `https://cheats.aarontrotter.com/mcp` (or pick an existing custom connector).
+2. Connection: paste `https://cheats.cloud/mcp` (or pick an existing custom connector).
 3. Tools: every tool should show a title and read-only / destructive annotations with no warnings. If the form still says "Missing title annotation", the cheatsheet deploy has not finished; check the GitHub Actions run and re-add the connector.
 4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheatsheet-mcp/main/assets/cheatsheet-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
 5. Auth: OAuth with dynamic client registration.
@@ -87,4 +87,4 @@ Only after the connector is submitted. Same portal → **Plugin bundle**.
 ## After listings go live
 
 Update the Marketplaces section on
-https://cheats.aarontrotter.com/api-docs/connect-mcp with the concrete directory URLs.
+https://cheats.cloud/api-docs/connect-mcp with the concrete directory URLs.

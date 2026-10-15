@@ -3,8 +3,10 @@
 **Best path for Cheatsheet:** list the **hosted connector** first (maximum visibility across
 Claude products). Optional IDE **plugins** package the same URL for one-click install.
 
-Packaging is on `main`. Hosted connector annotations are live on production after the cheatsheet
-app deploy that added `readOnlyHint` / `destructiveHint`.
+Packaging is on `main`. The hosted connector is live on production with `title`, `readOnlyHint`
+and `destructiveHint` on every tool (`annotations.title` included, which the directory checks), an
+OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on the root and
+`/mcp`-suffixed `.well-known` paths. Pushing to `master` on the cheatsheet repo auto-deploys it.
 
 ## Shared listing copy
 
@@ -22,6 +24,26 @@ app deploy that added `readOnlyHint` / `destructiveHint`.
 | Auth | OAuth 2.0 with dynamic client registration |
 | Categories | Productivity, Notes, Developer tools |
 
+## Use cases, prerequisites and read/write (directory form)
+
+Shown to reviewers only, not on the public listing.
+
+| # | Use case | Example prompt |
+| --- | --- | --- |
+| 1 | Look up a cheat or note | Search my cheatsheet for the git rebase cheat and show me the steps. |
+| 2 | Capture a task or note | Add a task "Renew domain" to my cheatsheet with a list item for each registrar. |
+| 3 | Track work and time | Log 2 hours on the Acme website project today, and show how much I've earned this month. |
+
+- **Prerequisites:** A Cheatsheet account at cheats.aarontrotter.com. Reading works on the Free
+  plan; write tools (add, update, delete) need a Pro plan, because the OAuth consent screen only
+  grants write access to Pro accounts. Sign-in is OAuth, so no API key or admin permission is
+  needed. On the consent screen the user can untick app sections (Tasks, Brain, Projects, Pennies,
+  Hours, Dues) to limit what the connector reaches. Reviewers: use the supplied Pro test account.
+- **Read/write capabilities:** **Read and write.** The form checks this against the tool
+  annotations and rejects "Read only", because 26 tools are annotated as writing.
+- Keep the example prompts away from Pennies and Dues so reviewers are not pointed at private
+  financial data.
+
 ## Priority order
 
 1. **Claude Connectors Directory** — primary; everybody on Claude can find and connect.
@@ -32,11 +54,12 @@ app deploy that added `readOnlyHint` / `destructiveHint`.
 
 1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
 2. Connection: paste `https://cheats.aarontrotter.com/mcp` (or pick an existing custom connector).
-3. Tools: confirm every tool has a title and read-only / destructive annotations (no flags).
-4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon (Claude may otherwise show a cached or parent-domain favicon).
+3. Tools: every tool should show a title and read-only / destructive annotations with no warnings. If the form still says "Missing title annotation", the cheatsheet deploy has not finished; check the GitHub Actions run and re-add the connector.
+4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheatsheet-mcp/main/assets/cheatsheet-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
 5. Auth: OAuth with dynamic client registration.
-6. Test & launch: add a reviewer test account (Pro, with sample data) and confirm you’ve exercised the tools as a custom connector.
-7. Compliance acknowledgements → submit.
+6. Use cases: paste the table above; choose Read and write.
+7. Test & launch: create a dedicated reviewer test account (Pro, with sample data, none of your real Pennies or Dues) and confirm you’ve exercised the tools as a custom connector.
+8. Compliance acknowledgements → submit.
 
 ## 2. Cursor Marketplace
 

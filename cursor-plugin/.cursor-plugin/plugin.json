@@ -9,6 +9,6 @@
   "homepage": "https://cheats.cloud/api-docs/connect-mcp",
   "repository": "https://github.com/AaronTrotter/cheats-mcp",
   "license": "MIT",
-  "logo": "assets/cheatsheet-lockup-onwhite.svg",
+  "logo": "assets/cheats-lockup-onwhite.svg",
   "keywords": ["cheats", "mcp", "notes", "tasks"]
 }

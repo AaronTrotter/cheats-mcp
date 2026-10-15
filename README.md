@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cheatsheet-lockup-ondark.svg">
-  <img alt="cheatsheet" src="assets/cheatsheet-lockup-onwhite.svg" width="340" height="56">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/cheats-lockup-ondark.svg">
+  <img alt="Cheats" src="assets/cheats-lockup-onwhite.svg" width="340" height="56">
 </picture>
 
 # cheats-mcp
@@ -123,7 +123,7 @@ url = "https://cheats.cloud/mcp"
 ```
 
 Then run `codex mcp login cheats` to complete OAuth. For the API-key path add
-`bearer_token_env_var = "CHEATSHEET_API_KEY"` and export that variable.
+`bearer_token_env_var = "CHEATS_API_KEY"` and export that variable.
 
 **Gemini CLI** (`~/.gemini/settings.json`). `httpUrl` selects Streamable HTTP; plain `url` means
 legacy SSE and will not work against this server:

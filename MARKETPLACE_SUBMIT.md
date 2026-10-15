@@ -20,7 +20,7 @@ OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on t
 | Privacy | https://cheats.cloud/privacy-policy |
 | Support | support@cheats.cloud |
 | Homepage | https://cheats.cloud |
-| Icon | `assets/cheatsheet-icon-512.png` (square PNG, for the Claude directory's custom icon upload); `assets/cheatsheet-lockup-onwhite.svg` for plugin listings |
+| Icon | `assets/cheats-icon-512.png` (square PNG, for the Claude directory's custom icon upload); `assets/cheats-lockup-onwhite.svg` for plugin listings |
 | Auth | OAuth 2.0 with dynamic client registration |
 | Categories | Productivity, Notes, Developer tools |
 
@@ -54,8 +54,8 @@ Shown to reviewers only, not on the public listing.
 
 1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
 2. Connection: paste `https://cheats.cloud/mcp` (or pick an existing custom connector).
-3. Tools: every tool should show a title and read-only / destructive annotations with no warnings. If the form still says "Missing title annotation", the cheatsheet deploy has not finished; check the GitHub Actions run and re-add the connector.
-4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheats-mcp/main/assets/cheatsheet-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
+3. Tools: every tool should show a title and read-only / destructive annotations with no warnings. If the form still says "Missing title annotation", the Cheats app deploy has not finished; check the GitHub Actions run and re-add the connector.
+4. Listing: use the shared copy above; upload `assets/cheats-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheats-mcp/main/assets/cheats-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
 5. Auth: OAuth with dynamic client registration.
 6. Use cases: paste the table above; choose Read and write.
 7. Test & launch: create a dedicated reviewer test account (Pro, with sample data, none of your real Pennies or Dues) and confirm you’ve exercised the tools as a custom connector.

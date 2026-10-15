@@ -6,7 +6,7 @@ Claude products). Optional IDE **plugins** package the same URL for one-click in
 Packaging is on `main`. The hosted connector is live on production with `title`, `readOnlyHint`
 and `destructiveHint` on every tool (`annotations.title` included, which the directory checks), an
 OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on the root and
-`/mcp`-suffixed `.well-known` paths. Pushing to `master` on the cheatsheet repo auto-deploys it.
+`/mcp`-suffixed `.well-known` paths. Pushing to `master` on the `cheats` repo auto-deploys it.
 
 ## Shared listing copy
 
@@ -30,8 +30,8 @@ Shown to reviewers only, not on the public listing.
 
 | # | Use case | Example prompt |
 | --- | --- | --- |
-| 1 | Look up a cheat or note | Search my cheatsheet for the git rebase cheat and show me the steps. |
-| 2 | Capture a task or note | Add a task "Renew domain" to my cheatsheet with a list item for each registrar. |
+| 1 | Look up a cheat or note | Search my Cheats for the git rebase cheat and show me the steps. |
+| 2 | Capture a task or note | Add a task "Renew domain" to my Cheats with a list item for each registrar. |
 | 3 | Track work and time | Log 2 hours on the Acme website project today, and show how much I've earned this month. |
 
 - **Prerequisites:** A Cheats account at cheats.cloud. Reading works on the Free
@@ -55,7 +55,7 @@ Shown to reviewers only, not on the public listing.
 1. Open https://claude.ai/directory/manage → **Submit new** → **MCP connector** (not plugin).
 2. Connection: paste `https://cheats.cloud/mcp` (or pick an existing custom connector).
 3. Tools: every tool should show a title and read-only / destructive annotations with no warnings. If the form still says "Missing title annotation", the cheatsheet deploy has not finished; check the GitHub Actions run and re-add the connector.
-4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheatsheet-mcp/main/assets/cheatsheet-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
+4. Listing: use the shared copy above; upload `assets/cheatsheet-icon-512.png` as the custom icon. Public URL: https://raw.githubusercontent.com/AaronTrotter/cheats-mcp/main/assets/cheatsheet-icon-512.png (Claude's favicon lookup showed the wrong image for `aarontrotter.com`, so set the icon explicitly).
 5. Auth: OAuth with dynamic client registration.
 6. Use cases: paste the table above; choose Read and write.
 7. Test & launch: create a dedicated reviewer test account (Pro, with sample data, none of your real Pennies or Dues) and confirm you’ve exercised the tools as a custom connector.
@@ -64,21 +64,21 @@ Shown to reviewers only, not on the public listing.
 ## 2. Cursor Marketplace
 
 1. Open https://cursor.com/marketplace/publish
-2. Submit repository: `https://github.com/AaronTrotter/cheatsheet-mcp`
+2. Submit repository: `https://github.com/AaronTrotter/cheats-mcp`
 3. Manifest: `.cursor-plugin/marketplace.json` (plugin in `cursor-plugin/`)
 
 ## 3. cursor.directory
 
 1. Open https://cursor.directory/plugins/new
 2. Sign in with GitHub.
-3. Paste `https://github.com/AaronTrotter/cheatsheet-mcp` → Scan repo (detects root `.mcp.json`).
+3. Paste `https://github.com/AaronTrotter/cheats-mcp` → Scan repo (detects root `.mcp.json`).
 4. Publish Plugin.
 
 ## 4. Claude Plugin Directory (optional)
 
 Only after the connector is submitted. Same portal → **Plugin bundle**.
 
-1. Repository: `AaronTrotter/cheatsheet-mcp`
+1. Repository: `AaronTrotter/cheats-mcp`
 2. Plugin path: `claude-plugin`
 3. Branch: `main`
 4. **Validate** → fix blocking findings → submit.

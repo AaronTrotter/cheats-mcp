@@ -3,9 +3,9 @@
   <img alt="cheatsheet" src="assets/cheatsheet-lockup-onwhite.svg" width="340" height="56">
 </picture>
 
-# cheatsheet-mcp
+# cheats-mcp
 
-Client packaging and install docs for the [cheatsheet](https://cheats.cloud) hosted MCP
+Client packaging and install docs for the [Cheats](https://cheats.cloud) hosted MCP
 connector. Point any MCP-compatible client at:
 
 ```text
@@ -19,7 +19,7 @@ for you and listed under `/user` → API Access. Untick any app sections on the 
 limit which tools the connector offers.
 
 The server itself lives in the app repo
-([`functions/routes/db/mcpConnector.js`](https://github.com/AaronTrotter/cheatsheet)). This repo only
+([`functions/routes/db/mcpConnector.js`](https://github.com/AaronTrotter/cheats)). This repo only
 packages how clients reach it. The same walkthrough from the web app's side is on
 [Connect an MCP Client](https://cheats.cloud/api-docs/connect-mcp).
 
@@ -31,12 +31,12 @@ were removed — every major client below can use the hosted URL directly.
 | Client | How |
 | --- | --- |
 | **Claude** (claude.ai / Desktop / mobile) | Settings → Connectors → Add custom connector → URL above |
-| **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheatsheet https://cheats.cloud/mcp` |
+| **Claude Code** | [`claude-plugin/`](claude-plugin/README.md), or `claude mcp add --transport http cheats https://cheats.cloud/mcp` |
 | **Cursor** | [`cursor-plugin/`](cursor-plugin/README.md), or `url` entry in `~/.cursor/mcp.json` |
 | **ChatGPT** (web) | Settings → Apps & Connectors → enable Developer mode → Create connector → URL + OAuth |
 | **VS Code + Copilot** | MCP: Add Server → HTTP → URL above (config key is `servers`, see [snippets](#per-client-config-snippets)) |
-| **Codex CLI** | [`.codex/config.toml`](.codex/config.toml) entry, then `codex mcp login cheatsheet` |
-| **Gemini CLI** | `gemini mcp add --transport http cheatsheet https://cheats.cloud/mcp` (the settings key is `httpUrl`, not `url`) |
+| **Codex CLI** | [`.codex/config.toml`](.codex/config.toml) entry, then `codex mcp login cheats` |
+| **Gemini CLI** | `gemini mcp add --transport http cheats https://cheats.cloud/mcp` (the settings key is `httpUrl`, not `url`) |
 | **Windsurf** | `serverUrl` entry in `~/.codeium/windsurf/mcp_config.json` |
 | **Other MCP clients** | Any client speaking Streamable HTTP + OAuth 2.1 (PKCE, dynamic client registration) |
 
@@ -52,8 +52,8 @@ you can revoke one without touching the others.
 ## Claude Code plugin
 
 ```
-/plugin marketplace add AaronTrotter/cheatsheet-mcp
-/plugin install cheatsheet@cheatsheet-mcp
+/plugin marketplace add AaronTrotter/cheats-mcp
+/plugin install cheats@cheats-mcp
 ```
 
 Details: [`claude-plugin/README.md`](claude-plugin/README.md). Claude Code needs
@@ -62,7 +62,7 @@ Details: [`claude-plugin/README.md`](claude-plugin/README.md). Claude Code needs
 ## Cursor plugin
 
 Import this repo as a Cursor marketplace, or copy [`cursor-plugin/`](cursor-plugin/) into
-`~/.cursor/plugins/local/cheatsheet` and reload. Details:
+`~/.cursor/plugins/local/cheats` and reload. Details:
 [`cursor-plugin/README.md`](cursor-plugin/README.md).
 
 Manual `~/.cursor/mcp.json`:
@@ -70,7 +70,7 @@ Manual `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": {
+    "cheats": {
       "url": "https://cheats.cloud/mcp"
     }
   }
@@ -110,7 +110,7 @@ These are the exact shapes.
 ```json
 {
   "servers": {
-    "cheatsheet": { "type": "http", "url": "https://cheats.cloud/mcp" }
+    "cheats": { "type": "http", "url": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -118,11 +118,11 @@ These are the exact shapes.
 **Codex CLI** (`~/.codex/config.toml`, same as the checked-in [`.codex/config.toml`](.codex/config.toml)):
 
 ```toml
-[mcp_servers.cheatsheet]
+[mcp_servers.cheats]
 url = "https://cheats.cloud/mcp"
 ```
 
-Then run `codex mcp login cheatsheet` to complete OAuth. For the API-key path add
+Then run `codex mcp login cheats` to complete OAuth. For the API-key path add
 `bearer_token_env_var = "CHEATSHEET_API_KEY"` and export that variable.
 
 **Gemini CLI** (`~/.gemini/settings.json`). `httpUrl` selects Streamable HTTP; plain `url` means
@@ -131,7 +131,7 @@ legacy SSE and will not work against this server:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": { "httpUrl": "https://cheats.cloud/mcp" }
+    "cheats": { "httpUrl": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -141,7 +141,7 @@ legacy SSE and will not work against this server:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": { "serverUrl": "https://cheats.cloud/mcp" }
+    "cheats": { "serverUrl": "https://cheats.cloud/mcp" }
   }
 }
 ```
@@ -181,7 +181,7 @@ that same URL. Paste-ready fields and step order: [`MARKETPLACE_SUBMIT.md`](MARK
 | 1 (primary) | **Claude Connectors Directory** | [claude.ai/directory/manage](https://claude.ai/directory/manage) → **MCP connector** | URL `https://cheats.cloud/mcp` |
 | 2 | **Cursor Marketplace** | [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) | This repository |
 | 2 | **cursor.directory** | [cursor.directory/plugins/new](https://cursor.directory/plugins/new) | This repository (auto-detects root [`.mcp.json`](.mcp.json)) |
-| 3 (optional) | **Claude Plugin Directory** | same Claude portal → Plugin bundle | Repo `AaronTrotter/cheatsheet-mcp`, path `claude-plugin` |
+| 3 (optional) | **Claude Plugin Directory** | same Claude portal → Plugin bundle | Repo `AaronTrotter/cheats-mcp`, path `claude-plugin` |
 
 Docs and privacy for listings: [Connect an MCP Client](https://cheats.cloud/api-docs/connect-mcp)
 and [Privacy Policy](https://cheats.cloud/privacy-policy).
@@ -204,5 +204,5 @@ and [Privacy Policy](https://cheats.cloud/privacy-policy).
 - API key path: create the key first, then paste it into the client's header / token field.
 - Redirect URIs for desktop OAuth clients are handled by each client (e.g. Cursor uses
   `http://localhost:8787/callback` and `https://www.cursor.com/agents/mcp/oauth/callback`). The
-  cheatsheet authorization server supports dynamic client registration, so new OAuth-aware
+  Cheats authorization server supports dynamic client registration, so new OAuth-aware
   clients can register themselves.

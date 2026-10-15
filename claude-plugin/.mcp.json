@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "cheatsheet": {
+    "cheats": {
       "type": "http",
       "url": "https://cheats.cloud/mcp"
     }

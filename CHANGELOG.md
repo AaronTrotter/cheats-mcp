@@ -12,6 +12,14 @@ the repository version. Each entry below records where the plugins stood at that
 
 ## [Unreleased]
 
+### Changed
+
+- Rebranded from Cheatsheet to Cheats: the hosted connector moves to `https://cheats.cloud/mcp` and support to
+  `support@cheats.cloud`. The repository is now `cheats-mcp`, the marketplace is `cheats-mcp` and
+  the plugin id is `cheats` (install with `/plugin install cheats@cheats-mcp`). The Claude Code plugin
+  is **3.1.0** and the Cursor plugin **1.1.0**. The old `cheats.aarontrotter.com` origin keeps working.
+
+
 ### Removed
 
 - Local MCP entry points: `live-proxy.js` (stdio → hosted HTTP proxy), `local-mcp-server/` (stdio

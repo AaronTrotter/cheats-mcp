@@ -1,14 +1,14 @@
 {
-  "name": "cheatsheet",
-  "description": "Search, read, and manage cheats on your cheatsheet app from Cursor, via its hosted MCP connector.",
-  "version": "1.0.0",
+  "name": "cheats",
+  "description": "Search, read, and manage cheats on your Cheats account from Cursor, via its hosted MCP connector.",
+  "version": "1.1.0",
   "author": {
     "name": "Aaron Trotter",
     "email": "aaronjtrotter@gmail.com"
   },
   "homepage": "https://cheats.cloud/api-docs/connect-mcp",
-  "repository": "https://github.com/AaronTrotter/cheatsheet-mcp",
+  "repository": "https://github.com/AaronTrotter/cheats-mcp",
   "license": "MIT",
   "logo": "assets/cheatsheet-lockup-onwhite.svg",
-  "keywords": ["cheatsheet", "mcp", "notes", "tasks"]
+  "keywords": ["cheats", "mcp", "notes", "tasks"]
 }

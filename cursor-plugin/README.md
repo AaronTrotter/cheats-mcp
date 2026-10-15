@@ -1,4 +1,4 @@
-# cheatsheet Cursor plugin
+# Cheats Cursor plugin
 
 Registers the hosted `https://cheats.cloud/mcp` connector as a Cursor plugin.
 No local Node process and no API key file — Cursor talks to the Streamable HTTP endpoint and
@@ -10,8 +10,8 @@ approve. Full setup notes live on
 ## Install
 
 1. Import this repo as a marketplace (Customize → Plugins), or copy this folder to
-   `~/.cursor/plugins/local/cheatsheet` and reload the window.
-2. Install the **cheatsheet** plugin.
+   `~/.cursor/plugins/local/cheats` and reload the window.
+2. Install the **cheats** plugin.
 3. When Cursor connects, complete the Cheats sign-in / consent screen.
 
 ## Manual config (no plugin)
@@ -21,7 +21,7 @@ Put this in `~/.cursor/mcp.json` or a project `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": {
+    "cheats": {
       "url": "https://cheats.cloud/mcp"
     }
   }
@@ -33,7 +33,7 @@ Leave headers blank for OAuth. For a pasted API key instead:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": {
+    "cheats": {
       "url": "https://cheats.cloud/mcp",
       "headers": {
         "Authorization": "Bearer csk_live_..."

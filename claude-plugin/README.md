@@ -1,4 +1,4 @@
-# cheatsheet Claude Code plugin
+# Cheats Claude Code plugin
 
 Registers the hosted `https://cheats.cloud/mcp` connector as a Claude Code plugin.
 No local Node process and no API key file — Claude Code talks to the Streamable HTTP endpoint
@@ -10,16 +10,16 @@ approve on the consent screen. Full setup notes live on
 ## Install
 
 ```
-/plugin marketplace add AaronTrotter/cheatsheet-mcp
-/plugin install cheatsheet@cheatsheet-mcp
+/plugin marketplace add AaronTrotter/cheats-mcp
+/plugin install cheats@cheats-mcp
 ```
 
-Then run `/mcp` (or use a cheatsheet tool) and finish the browser sign-in when prompted.
+Then run `/mcp` (or use a Cheats tool) and finish the browser sign-in when prompted.
 
 ## Manual config (no plugin)
 
 ```bash
-claude mcp add --transport http cheatsheet https://cheats.cloud/mcp
+claude mcp add --transport http cheats https://cheats.cloud/mcp
 ```
 
 Or in `.mcp.json`:
@@ -27,7 +27,7 @@ Or in `.mcp.json`:
 ```json
 {
   "mcpServers": {
-    "cheatsheet": {
+    "cheats": {
       "type": "http",
       "url": "https://cheats.cloud/mcp"
     }

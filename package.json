@@ -1,6 +1,6 @@
 {
-  "name": "cheatsheet-mcp",
+  "name": "cheats-mcp",
   "version": "2.0.0",
   "private": true,
-  "description": "Client packaging and install docs for the cheatsheet hosted MCP connector (https://cheats.cloud/mcp). No local MCP server — clients connect over Streamable HTTP with OAuth."
+  "description": "Client packaging and install docs for the Cheats hosted MCP connector (https://cheats.cloud/mcp). No local MCP server — clients connect over Streamable HTTP with OAuth."
 }

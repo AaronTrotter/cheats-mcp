@@ -16,7 +16,7 @@ automatic deploy on push to `master` is currently failing, so deploy by hand).
 | Server URL | `https://cheats.cloud/mcp` |
 | Name | Cheats |
 | One-liner | Your snippets, notes and project boards, searchable and editable from Claude. |
-| Description | Cheats is your personal library of code snippets, commands and notes. With this connector, Claude can search and read everything in it, and on a Pro plan it can also add, edit and delete entries. It also reaches the rest of your account: Notes and lists, Brain (guidance and memories you keep for Claude), your Projects board, logged Hours, Pennies (your investment log) and Dues (money owed to you). You sign in with OAuth, and on the consent screen you choose which sections Claude can reach. A Free account connects read-only, up to 20 requests a day. Your content stays private to you, except for Projects you choose to share. |
+| Description | Cheats is your personal library of code snippets, commands and notes. With this connector, Claude can search and read everything in it, and on a Pro plan it can also add, edit and delete entries. It also reaches the rest of your account: Notes and lists, Brain (guidance and memories you keep for Claude), your Projects board, logged Hours, Pennies (your investment log) and Dues (money owed to you). You sign in with OAuth, and on the consent screen you choose which sections Claude can reach. A Free account connects read-only, up to 20 requests a day. Everything is private to you except cheats you publish, and items or Projects you choose to share. |
 | Docs | https://cheats.cloud/api-docs/connect-mcp |
 | Privacy | https://cheats.cloud/privacy-policy |
 | Support | support@cheats.cloud |
@@ -46,6 +46,25 @@ Shown to reviewers only, not on the public listing.
   annotations and rejects "Read only", because 26 tools are annotated as writing.
 - Keep the example prompts away from Pennies and Dues so reviewers are not pointed at private
   financial data.
+- **Additional notes** (as submitted):
+  - **API ownership:** The connector at /mcp runs inside our own Cloud Function and reads and writes
+    only the signed-in user's own data in our own database. It does not proxy any partner API.
+  - **Auth:** OAuth 2.1 with PKCE and dynamic client registration. On the consent screen the user
+    chooses which app sections (Cheats, Notes, Brain, Projects, Pennies, Hours, Dues) the connector
+    can reach. Write access depends on the plan: Pro accounts get read and write, and Free accounts
+    get read-only, up to 20 tool calls a day.
+  - **Data:** Notes, Brain entries and cheats are free-text fields the user controls. Cheats are
+    public unless the user marks them private; everything else is private unless the user shares it.
+    Cheats does not collect or request health information. Pennies and Dues are the user's own
+    private records: the connector records them, but cannot place trades, move money or send emails.
+    Payment reminders in Dues are only sent when the user presses a button on the site.
+  - **Third-party data:** Crypto prices in the Pennies summary come from a scheduled server-side
+    refresh of CoinGecko's public market data, and currency conversion uses the European Central
+    Bank's published rates via Frankfurter. Both are cached in our database. These requests carry only
+    coin ids, currency codes and dates, never any user data.
+  - **Sponsored content:** None.
+  - **Testing:** See the test instructions. The reviewer account is Pro, with sample data in every
+    section. Support: support@cheats.cloud.
 
 ## Priority order
 

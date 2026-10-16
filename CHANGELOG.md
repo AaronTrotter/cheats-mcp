@@ -21,6 +21,13 @@ the repository version. Each entry below records where the plugins stood at that
 
 ### Changed
 
+- **Breaking (hosted connector):** `search_brain` now ranks its results and returns snippets.
+  Query words are matched one by one, in any language, so a whole sentence or a single broad word
+  still finds the right entries, best match first. Each result now has a short `snippet` instead
+  of the entry's full `text`, plus `keywords`, `textLength` and `matchedTerms`. The response
+  adds `total`. New `limit` (default 8, up to 25) and `full` (return full text) arguments.
+  Anything that read `text` from `search_brain` should now call `get_brain`, or pass
+  `full: true`. The REST endpoint `/mcp/searchBrain` is unchanged.
 - **Hosted connector:** clearer tool descriptions for the AI.
   - `search_cheats` now says it also returns other people's public cheats. Each result and
     `get_cheat` carry `mine`, true for the cheats this account created and can edit or delete.

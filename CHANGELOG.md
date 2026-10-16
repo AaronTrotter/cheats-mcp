@@ -12,8 +12,27 @@ the repository version. Each entry below records where the plugins stood at that
 
 ## [Unreleased]
 
+### Fixed
+
+- **Hosted connector:** `search_cheats`'s `type` filter now works. It is documented as a type
+  name such as `git`, but the name was matched against the search index's type ids, so any type
+  filter returned nothing. It now looks the name up (case-insensitively), and an unknown type
+  returns no results.
+
 ### Changed
 
+- **Hosted connector:** clearer tool descriptions for the AI.
+  - `search_cheats` now says it also returns other people's public cheats. Each result and
+    `get_cheat` carry `mine`, true for the cheats this account created and can edit or delete.
+  - `get_cheat` also returns `ceased`, true when the id is an old revision that has since been
+    edited or deleted.
+  - `add_cheat` and `update_cheat` now say that `private: false` publishes the cheat to everyone.
+    `update_cheat` says to keep the cheat's current visibility unless the user asks to change it.
+  - `update_cheat`, `update_note`, `update_brain` and `update_project_task` now say which fields
+    replace the old values, that they return a new id, and that the new id is the one to use from
+    then on.
+  - `update_note` and `update_brain` now say that leaving out `duration` makes the entry
+    permanent, rather than keeping its expiry.
 - **Hosted connector:** a Free account connecting over OAuth now gets read-only access, up to 20
   tool calls a day, instead of being refused. Every connection's instructions open with a short
   guide to what each section is for and what can only be done on the site.

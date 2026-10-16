@@ -1,7 +1,7 @@
 {
   "name": "cheats",
-  "description": "Search, read, and manage cheats on your Cheats account from Claude, via its hosted MCP connector.",
-  "version": "3.2.0",
+  "description": "Search and edit your Cheats snippets, notes, lists and project boards from Claude, via the hosted MCP connector.",
+  "version": "3.2.1",
   "author": {
     "name": "Aaron Trotter",
     "email": "aaronjtrotter@gmail.com"

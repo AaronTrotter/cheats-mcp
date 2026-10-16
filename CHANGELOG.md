@@ -14,6 +14,11 @@ the repository version. Each entry below records where the plugins stood at that
 
 ### Changed
 
+- **Hosted connector:** a Free account connecting over OAuth now gets read-only access, up to 20
+  tool calls a day, instead of being refused. Every connection's instructions open with a short
+  guide to what each section is for and what can only be done on the site.
+- Plugin descriptions now mention notes, lists and project boards (Claude Code plugin 3.2.1,
+  Cursor plugin 1.2.1).
 - **Breaking (hosted connector):** the Cheats app has renamed its Tasks section to Notes, so the
   connector's tools are now `search_notes`, `get_note`, `add_note`, `update_note` and
   `delete_note` instead of `search_tasks`, `get_task`, `add_task`, `update_task` and

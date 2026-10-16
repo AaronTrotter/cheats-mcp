@@ -11,8 +11,8 @@
     {
       "name": "cheats",
       "source": "./cursor-plugin",
-      "description": "Search, read, and manage cheats on your Cheats account from Cursor, via its hosted MCP connector.",
-      "version": "1.2.0",
+      "description": "Search and edit your Cheats snippets, notes, lists and project boards from Cursor, via the hosted MCP connector.",
+      "version": "1.2.1",
       "homepage": "https://cheats.cloud/api-docs/connect-mcp",
       "license": "MIT",
       "logo": "cursor-plugin/assets/cheats-lockup-onwhite.svg",

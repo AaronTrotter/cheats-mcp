@@ -6,7 +6,8 @@ Claude products). Optional IDE **plugins** package the same URL for one-click in
 Packaging is on `main`. The hosted connector is live on production with `title`, `readOnlyHint`
 and `destructiveHint` on every tool (`annotations.title` included, which the directory checks), an
 OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on the root and
-`/mcp`-suffixed `.well-known` paths. Pushing to `master` on the `cheats` repo auto-deploys it.
+`/mcp`-suffixed `.well-known` paths. It deploys from the `cheats` repo (see its DEPLOY.md; the
+automatic deploy on push to `master` is currently failing, so deploy by hand).
 
 ## Shared listing copy
 
@@ -14,8 +15,8 @@ OAuth challenge on both `GET` and `POST /mcp`, and RFC 9728 / 8414 metadata on t
 | --- | --- |
 | Server URL | `https://cheats.cloud/mcp` |
 | Name | Cheats |
-| One-liner | Search and edit your personal cheat sheets, notes, lists and project boards from Claude. |
-| Description | Cheats is your personal library of code snippets, commands and notes. This connector lets Claude search and read it, and, on a Pro plan, add, edit and delete entries. It also reaches your Notes, Brain, Projects board, logged Hours, Pennies and Dues. Sign in with OAuth. On the consent screen you choose which sections Claude can reach, and you can limit it to read-only. Shared Projects are the only content visible to anyone else you invite. |
+| One-liner | Your snippets, notes and project boards, searchable and editable from Claude. |
+| Description | Cheats is your personal library of code snippets, commands and notes. With this connector, Claude can search and read everything in it, and on a Pro plan it can also add, edit and delete entries. It also reaches the rest of your account: Notes and lists, Brain (guidance and memories you keep for Claude), your Projects board, logged Hours, Pennies (your investment log) and Dues (money owed to you). You sign in with OAuth, and on the consent screen you choose which sections Claude can reach. A Free account connects read-only, up to 20 requests a day. Your content stays private to you, except for Projects you choose to share. |
 | Docs | https://cheats.cloud/api-docs/connect-mcp |
 | Privacy | https://cheats.cloud/privacy-policy |
 | Support | support@cheats.cloud |
@@ -31,14 +32,16 @@ Shown to reviewers only, not on the public listing.
 | # | Use case | Example prompt |
 | --- | --- | --- |
 | 1 | Look up a cheat or note | Search my Cheats for the git rebase cheat and show me the steps. |
-| 2 | Capture a note or list | Add a list "Renew domain" to my Cheats notes with an item for each registrar. |
-| 3 | Track work and time | Log 2 hours on the Acme website project today, and show how much I've earned this month. |
+| 2 | Capture a note or list | Add a list called "Renew domains" to my Cheats notes with one item each for example.com, example.org and example.net. |
+| 3 | Track time and earnings | Log 2 hours on the Acme website project today for "Homepage fixes", and show how much I've earned this month. |
 
-- **Prerequisites:** A Cheats account at cheats.cloud. Reading works on the Free
-  plan; write tools (add, update, delete) need a Pro plan, because the OAuth consent screen only
-  grants write access to Pro accounts. Sign-in is OAuth, so no API key or admin permission is
-  needed. On the consent screen the user can untick app sections (Notes, Brain, Projects, Pennies,
-  Hours, Dues) to limit what the connector reaches. Reviewers: use the supplied Pro test account.
+- **Prerequisites:** A Cheats account at cheats.cloud. A Free account connects read-only, up to
+  20 requests a day: Claude asks for read and write, and the consent screen grants a Free account
+  the read half. Write tools (add, update, delete) need a Pro plan. Sign-in is OAuth, so no API key
+  or admin permission is needed. On the consent screen the user can untick app sections (Cheats,
+  Notes, Brain, Projects, Pennies, Hours, Dues) to limit what the connector reaches, and can change
+  this later on their User page. Reviewers: use the supplied Pro test account, which needs a git
+  rebase cheat and an Hours project called "Acme website" with an hourly rate for the prompts above.
 - **Read/write capabilities:** **Read and write.** The form checks this against the tool
   annotations and rejects "Read only", because 26 tools are annotated as writing.
 - Keep the example prompts away from Pennies and Dues so reviewers are not pointed at private

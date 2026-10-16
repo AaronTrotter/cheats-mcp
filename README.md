@@ -166,6 +166,7 @@ What a client needs from the server, and where it stands (verified against produ
 | Dynamic client registration (RFC 7591) | Yes; `https` and `localhost` redirect URIs |
 | PKCE `S256` | Required |
 | Tool `title` plus `readOnlyHint` / `destructiveHint` annotations | Yes, on every tool |
+| Input limits in the tool schemas, and over-limit input refused with an error rather than truncated | From the next server release (see [CHANGELOG](CHANGELOG.md)) |
 | Refresh tokens | No: the access token is a long-lived, revocable API key (`/user` → API Access) |
 | Custom-scheme redirect URIs (`cursor://`, `vscode://`) | Rejected; those clients use their `https` or `localhost` callbacks |
 | ChatGPT `search` / `fetch` tools (deep research, company knowledge) | Not provided; tools are `search_cheats`, `get_cheat`, … so use ChatGPT Developer mode |

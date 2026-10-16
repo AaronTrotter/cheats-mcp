@@ -31,6 +31,15 @@ the repository version. Each entry below records where the plugins stood at that
   `support@cheats.cloud`. The repository is now `cheats-mcp`, the marketplace is `cheats-mcp` and
   the plugin id is `cheats` (install with `/plugin install cheats@cheats-mcp`). The Claude Code plugin
   is **3.1.0** and the Cursor plugin **1.1.0**. The old `cheats.aarontrotter.com` origin keeps working.
+- Hosted connector: the tools now state their real input limits, and the server no longer changes
+  input without saying so. Titles, names and short descriptions keep apostrophes, quotes, commas,
+  slashes, brackets and letters in any language (only `<`, `>` and control characters are
+  removed); cheat type names and Pennies tickers keep the old strict set. A body over 100 lines,
+  a line over 600 characters, or a title or name over its stated length is now rejected with an
+  error naming the limit instead of being cut short, so the model can fix it and retry. The input
+  schemas carry the limits (`min`/`max` lengths, a 3-letter pattern on currency codes, plain-text
+  and list-format notes on body fields), and a write connection's `instructions` add one short
+  paragraph of house rules. Nothing in this repository changes, and the plugin versions stay put.
 
 
 ### Removed

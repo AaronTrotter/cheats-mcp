@@ -14,6 +14,19 @@ the repository version. Each entry below records where the plugins stood at that
 
 ### Changed
 
+- **Breaking (hosted connector):** the Cheats app has renamed its Tasks section to Notes, so the
+  connector's tools are now `search_notes`, `get_note`, `add_note`, `update_note` and
+  `delete_note` instead of `search_tasks`, `get_task`, `add_task`, `update_task` and
+  `delete_task`. Arguments are unchanged, and a note is still either a `note` or a `list`. The
+  REST endpoints behind them move from `/mcp/*Task` to `/mcp/*Note`, and `/mcp/searchNotes` and
+  `/mcp/searchBrain` now return `{ notes, totalPages }` rather than `{ tasks, totalPages }`. An
+  API key's section id is `notes` rather than `tasks`, and the page is `/notes`. The Projects
+  card tools (`*_project_task`) are not renamed. This repository registers only the hosted URL,
+  so nothing here calls the old names, but saved prompts or allowlists that name them need
+  updating. The plugin READMEs, plugin keywords and the listing copy in
+  [`MARKETPLACE_SUBMIT.md`](MARKETPLACE_SUBMIT.md) now say Notes. The Claude Code plugin is
+  **3.2.0** and the Cursor plugin **1.2.0**. Entries below are left as written, since they were
+  accurate at their release.
 - Rebranded from Cheatsheet to Cheats: the hosted connector moves to `https://cheats.cloud/mcp` and support to
   `support@cheats.cloud`. The repository is now `cheats-mcp`, the marketplace is `cheats-mcp` and
   the plugin id is `cheats` (install with `/plugin install cheats@cheats-mcp`). The Claude Code plugin

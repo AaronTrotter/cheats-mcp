@@ -3,7 +3,7 @@
 Registers the hosted `https://cheats.cloud/mcp` connector as a Claude Code plugin.
 No local Node process and no API key file — Claude Code talks to the Streamable HTTP endpoint
 and completes Cheats' OAuth sign-in / consent flow. Once connected, Claude can search and
-manage your cheats, Tasks, Brain, and other Cheats sections according to the scopes you
+manage your cheats, Notes, Brain, and other Cheats sections according to the scopes you
 approve on the consent screen. Full setup notes live on
 [Connect an MCP Client](https://cheats.cloud/api-docs/connect-mcp).
 

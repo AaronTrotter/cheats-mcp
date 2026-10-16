@@ -1,7 +1,7 @@
 {
   "name": "cheats",
   "description": "Search, read, and manage cheats on your Cheats account from Claude, via its hosted MCP connector.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "author": {
     "name": "Aaron Trotter",
     "email": "aaronjtrotter@gmail.com"
@@ -9,5 +9,5 @@
   "homepage": "https://cheats.cloud/api-docs/connect-mcp",
   "repository": "https://github.com/AaronTrotter/cheats-mcp",
   "license": "MIT",
-  "keywords": ["cheats", "mcp", "notes", "tasks"]
+  "keywords": ["cheats", "mcp", "notes", "brain"]
 }

@@ -9,7 +9,7 @@
       "name": "cheats",
       "source": "./claude-plugin",
       "description": "Search, read, and manage cheats on your Cheats account from Claude, via its hosted MCP connector.",
-      "version": "3.1.0"
+      "version": "3.2.0"
     }
   ]
 }

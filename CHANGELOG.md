@@ -22,6 +22,11 @@ the repository version. Each entry below records where the plugins stood at that
   cards and say what it will cost" is one call. `add_project_task` and `update_project_task`
   take `costTier`, `agentId` and `effort` to pin them by hand (`null` unpins on update). The
   estimate names the effort level to run the agent at (`estimate.effort`, e.g. `high`).
+- **Hosted connector:** `search_project_tasks` and `get_project_task` take `runner`, the vendor of
+  the calling model (e.g. `Anthropic`). Each estimate then adds `forRunner`: the closest agent from
+  that vendor, the effort to run it at and what it would cost, so a card whose best fit is another
+  vendor's model (Grok, say) still tells Claude which Claude model to use. The connect
+  instructions tell clients to pass it.
 - **Hosted connector:** `search_ai_agents` and `get_ai_agent` read the agent list the estimates
   choose from: the official list plus any agents the user added for themselves on the Agents page,
   minus the ones they switched off. Each agent has `scope` (`official`/`mine`), `efforts`,

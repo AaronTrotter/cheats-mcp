@@ -12,6 +12,22 @@ the repository version. Each entry below records where the plugins stood at that
 
 ## [Unreleased]
 
+### Added
+
+- **Hosted connector:** every Projects card now carries a cost `estimate`: a `light`/`medium`/
+  `heavy` tier worked out from the card itself (no model call), the AI agent it suits, and the
+  tokens, dollars and credits that agent would likely spend, including whether the job fits its
+  context window. `search_project_tasks` takes `cost` (a list of tiers) and `sort` (`newest`,
+  `cheapest`, `costliest`) and returns `totals` for the cards it returns, so "do all the light
+  cards and say what it will cost" is one call. `add_project_task` and `update_project_task`
+  take `costTier`, `agentId` and `effort` to pin them by hand (`null` unpins on update). The
+  estimate names the effort level to run the agent at (`estimate.effort`, e.g. `high`).
+- **Hosted connector:** `search_ai_agents` and `get_ai_agent` read the agent list the estimates
+  choose from: the official list plus any agents the user added for themselves on the Agents page,
+  minus the ones they switched off. Each agent has `scope` (`official`/`mine`), `efforts`,
+  strengths, context window, prices and credits. Both sit in the `projects` section, so the
+  connector now has 49 tools, 23 of them read tools.
+
 ### Fixed
 
 - **Hosted connector:** `search_cheats`'s `type` filter now works. It is documented as a type

@@ -30,8 +30,10 @@ the repository version. Each entry below records where the plugins stood at that
 - **Hosted connector:** `search_ai_agents` and `get_ai_agent` read the agent list the estimates
   choose from: the official list plus any agents the user added for themselves on the Agents page,
   minus the ones they switched off. Each agent has `scope` (`official`/`mine`), `efforts`,
-  strengths, context window, prices and credits. Both sit in the `projects` section, so the
-  connector now has 49 tools, 23 of them read tools.
+  strengths, context window, prices and credits. Both sit in a new `agents` section, with its own
+  checkbox on the connect screen and the API key picker, so the connector now has 49 tools, 23 of
+  them read tools. A key narrowed to some sections before this release doesn't include `agents`
+  until it is reconnected or edited; card estimates work either way.
 
 ### Fixed
 

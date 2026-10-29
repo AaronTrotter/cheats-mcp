@@ -44,6 +44,14 @@ the repository version. Each entry below records where the plugins stood at that
 
 ### Changed
 
+- **Hosted connector:** the Projects card tools now say plainly which one to use, because AI
+  clients kept deleting a card to hand it over or revising it just to change its column.
+  `move_project_task` is described as the only tool for progress (`in-progress` when starting,
+  `in-review` when finished and waiting for a person, `open` to put it back) and its `status`
+  explains each column. `delete_project_task` is now described as the end of a card's life, only
+  once the user says it is done, signed off or unwanted, with "if unsure, move it to `in-review`".
+  `update_project_task` says never to use it to change the column. No tool names or inputs
+  changed.
 - **Breaking (hosted connector):** `search_brain` now ranks its results and returns snippets.
   Query words are matched one by one, in any language, so a whole sentence or a single broad word
   still finds the right entries, best match first. Each result now has a short `snippet` instead

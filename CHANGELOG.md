@@ -34,6 +34,21 @@ the repository version. Each entry below records where the plugins stood at that
   checkbox on the connect screen and the API key picker, so the connector now has 49 tools, 23 of
   them read tools. A key narrowed to some sections before this release doesn't include `agents`
   until it is reconnected or edited; card estimates work either way.
+- **Hosted connector:** `search_diffs`, `get_diff` and `search_diff_repos` read the new Diffs
+  section: the GitHub repos the user linked, with every pull request and every commit pushed
+  straight to the default branch kept as a card scored for risk (how likely it is to break
+  something), intent drift (how far it strays from what it said it would do) and slop (the share
+  of added lines that are filler). Scores come from rules plus an optional Claude pass.
+  `search_diffs` filters by repo (id or `owner/name`), state, agent or human author, risk band and
+  `sinceMs`, up to 50 cards; `get_diff` adds the reasons, flagged slop ranges, per-file areas and
+  `linkedTaskIds`, the Projects cards the change names by a card link or a `cheats:<id>` /
+  `Card: <id>` token. All three sit in a new `diffs` section with its own checkbox on the connect
+  screen and the API key picker; a key narrowed to some sections before this release doesn't
+  include `diffs` until it is reconnected or edited.
+- **Hosted connector:** `flag_diff` opens a `Review: <diff title>` improvement card on a board the
+  user names, with the repo, link, scores and reasons, and links it back to the diff. It needs a
+  write-scoped key that reaches both `diffs` and `projects`. The connector now has 53 tools, 26 of
+  them read tools.
 
 ### Fixed
 
